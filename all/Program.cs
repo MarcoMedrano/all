@@ -5,6 +5,7 @@ namespace All
 {
     using System.Diagnostics;
     using System.IO;
+    using System.Text.RegularExpressions;
 
     class Program
     {
@@ -12,6 +13,9 @@ namespace All
         {
             string command = string.Empty;
             args.ToList().ForEach(arg => command += arg + " ");
+            command = command.ToLowerInvariant().Trim();
+
+            HandleOwnCommands(command);
 
             var baseDir = new DirectoryInfo(Environment.CurrentDirectory);
 
@@ -28,7 +32,7 @@ namespace All
             {
                 try
                 {
-                    //TODO investigate tricks with echo o command line to make visible separations between execution on each folder
+                    //TODO investigate tricks with echo o cmd to make visible separations between execution on each folder
                     //p.StandardInput.WriteLine(@"echo \n----------------------");
                     p.StandardInput.WriteLine(@"cd " + currentDir);
                     p.StandardInput.WriteLine(command);
@@ -57,6 +61,23 @@ namespace All
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Executed on {countDirectoriesSuccess} directoies successuful and failed on {countDirectoriesFail} directories.");
             Console.ForegroundColor = oldColor;
+        }
+
+        private static void HandleOwnCommands(string command)
+        {
+            CommandLineOptions options = new CommandLineOptions();
+
+            if (Regex.IsMatch(command, "^(-|--|/)(u$|update$)"))
+            {
+                Console.WriteLine("Updating ...");
+                Environment.Exit(0);
+            }
+
+            if (Regex.IsMatch(command, @"^(-|--|/)(h$|help$|\?)") || string.IsNullOrWhiteSpace(command))
+            {
+                Console.WriteLine(options.GetUsage());
+                Environment.Exit(0);
+            }
         }
     }
 }

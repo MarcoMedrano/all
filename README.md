@@ -1,6 +1,6 @@
 Welcome to All!
 ===================
-**all.exe** is command line utility that lets you execute a command on all direct children directories. Try one of next:
+**all.exe** is command line utility that let you execute a command on all sub folders. Try one of next:
 
     cd myrepos
     all git pull
@@ -18,7 +18,7 @@ Welcome to All!
 ↑  Similar for java projects, I am guessing it will work for other build systems.
 
 #How  does it work?
-> All that **all** does :) is 
+> Given `all command arguments` All that **all** does :) is 
 
 >- **cd** subFolder
 >- **command** arguments
