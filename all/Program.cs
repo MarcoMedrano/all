@@ -5,12 +5,17 @@ namespace All
 {
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
+    using Squirrel;
 
     class Program
     {
         static void Main(string[] args)
         {
+            HandleInstallation();
             string command = string.Empty;
             args.ToList().ForEach(arg => command += arg + " ");
             command = command.ToLowerInvariant().Trim();
@@ -63,6 +68,26 @@ namespace All
             Console.ForegroundColor = oldColor;
         }
 
+        private static void HandleInstallation()
+        {
+            using (var mgr = new UpdateManager(@"c:\lr.m\all\Releases\"))
+            {
+                // Note, in most of these scenarios, the app exits after this method
+                // completes!
+                SquirrelAwareApp.HandleEvents(
+                  onInitialInstall: v => SetOsPath(),
+                  onAppUpdate: v => SetOsPath(),
+                  onAppUninstall: v => { },
+                  onFirstRun: () => { });
+            }
+        }
+
+        private static void SetOsPath()
+        {
+            //TODO make proper code which does not replace the whole PATH lol :S
+            //Environment.SetEnvironmentVariable("PATH", Assembly.GetExecutingAssembly().Location, EnvironmentVariableTarget.User);
+        }
+
         private static void HandleOwnCommands(string command)
         {
             CommandLineOptions options = new CommandLineOptions();
@@ -70,6 +95,16 @@ namespace All
             if (Regex.IsMatch(command, "^(-|--|/)(u$|update$)"))
             {
                 Console.WriteLine("Updating ...");
+                using (var mgr = new UpdateManager(@"c:\lr.m\all\Releases\"))
+                {
+                    Task<ReleaseEntry> updateApp = mgr.UpdateApp();
+                    var res = updateApp.Result;
+                    if (res != null)
+                        Console.WriteLine("Updated to " + res.Version);
+                    else
+                        Console.WriteLine("No new versions");
+                }
+
                 Environment.Exit(0);
             }
 
