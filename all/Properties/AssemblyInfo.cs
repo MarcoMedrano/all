@@ -21,8 +21,9 @@ using CommandLine;
     "This is free software. You may redistribute copies of it under the terms of",
     "the MIT License <http://www.opensource.org/licenses/mit-license.php>.")]
 [assembly: AssemblyUsage(
-    "Usage: all command arguments",
-    "Like: all git pull")]
+    "Usage: all <command> [argument1ForCommand argument2ForCommand ...]",
+    "Like: all git pull",
+    "To send internal arguments prefix with - or -- or /")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -42,5 +43,5 @@ using CommandLine;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.3.0")]
-[assembly: AssemblyFileVersion("0.0.3.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

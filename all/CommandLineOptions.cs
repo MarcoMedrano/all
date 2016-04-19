@@ -15,8 +15,8 @@ namespace All
         [Option('u', "update", Required = false, HelpText = "Updates 'all' to last version.")]
         public bool Update { get; set; }
 
-        [Option('v', "verbose", HelpText = "Prints all messages to standard output.")]
-        public bool Verbose { get; set; }
+        //[Option('v', "verbose", HelpText = "Prints all messages to standard output.")]
+        //public bool Verbose { get; set; }
  
         [HelpOption]
         public string GetUsage()
