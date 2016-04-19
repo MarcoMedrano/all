@@ -13,11 +13,12 @@ namespace All.Installation
         private readonly Actions actions = new Actions();
         internal void OnInstallationAndUpdate()
         {
+            //TODO is missing remove path when uninstall
             // Note, in most of these scenarios, the app exits after this method completes!
             SquirrelAwareApp.HandleEvents(
                 onInitialInstall: v => this.actions.SetOsPath(),
                 onAppUpdate: v => this.actions.SetOsPath(),
-                onAppUninstall: v => { },
+                onAppUninstall: v => {},
                 onFirstRun: () => { });
         }
 
@@ -30,7 +31,7 @@ namespace All.Installation
                 Task<ReleaseEntry> updateApp = mgr.UpdateApp();
 
 #else
-            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/MarcoMedrano/all"))
+            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/MarcoMedrano/all", prerelease:true))
             {
                 Task<ReleaseEntry> updateApp = mgr.Result.UpdateApp();
 #endif
