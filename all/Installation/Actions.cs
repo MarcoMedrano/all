@@ -9,7 +9,7 @@
     {
         internal void SetOsPath()
         {
-            var paths = Environment.GetEnvironmentVariable("PATH");
+            var paths = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
             var currentDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
             string parentDirectory = currentDirectory.Parent.FullName;
 

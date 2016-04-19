@@ -14,12 +14,12 @@ namespace All
         static void Main(string[] args)
         {
             installation.OnInstallationAndUpdate();
+
             string command = string.Empty;
             args.ToList().ForEach(arg => command += arg + " ");
             command = command.ToLowerInvariant().Trim();
 
             HandleOwnCommands(command);
-
             var baseDir = new DirectoryInfo(Environment.CurrentDirectory);
 
             var p = new Process();
@@ -65,8 +65,6 @@ namespace All
             Console.WriteLine($"Executed on {countDirectoriesSuccess} directoies successuful and failed on {countDirectoriesFail} directories.");
             Console.ForegroundColor = oldColor;
         }
-
-        
 
         private static void HandleOwnCommands(string command)
         {
