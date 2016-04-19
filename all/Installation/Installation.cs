@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace All.Installation
 {
+    using System.Runtime.InteropServices;
+
     using Squirrel;
 
     class Installation
@@ -16,10 +18,10 @@ namespace All.Installation
             //TODO is missing remove path when uninstall
             // Note, in most of these scenarios, the app exits after this method completes!
             SquirrelAwareApp.HandleEvents(
-                onInitialInstall: v => this.actions.SetOsPath(),
-                onAppUpdate: v => this.actions.SetOsPath(),
-                onAppUninstall: v => {},
-                onFirstRun: () => { });
+            onInitialInstall: v => this.actions.SetOsPath(),
+            onAppUpdate: v => this.actions.SetOsPath(),
+            onAppUninstall: v => { },
+            onFirstRun: () => { });
         }
 
         internal void Update()
@@ -28,19 +30,20 @@ namespace All.Installation
 #if DEBUG
             using (var mgr = new UpdateManager(@"c:\lr.m\all\Releases\"))
             {
-                Task<ReleaseEntry> updateApp = mgr.UpdateApp();
-
 #else
-            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/MarcoMedrano/all", prerelease:true))
+            using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/MarcoMedrano/all", prerelease: true).Result)
             {
-                Task<ReleaseEntry> updateApp = mgr.Result.UpdateApp();
 #endif
-                var res = updateApp.Result;
+                var res = mgr.UpdateApp().Result;
 
                 if (res != null)
+                {
                     Console.WriteLine("Updated to " + res.Version);
+                    Console.WriteLine("Please open a new commandline to use new version.");
+                }
                 else
                     Console.WriteLine("No new versions");
+
             }
         }
     }
