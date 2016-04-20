@@ -4,7 +4,7 @@ namespace All.Installation
 {
     using Squirrel;
 
-    class Installation
+    class InstallerGate
     {
         private readonly Actions actions = new Actions();
 

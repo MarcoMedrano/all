@@ -7,19 +7,18 @@ namespace All
     using System.IO;
     using System.Text.RegularExpressions;
 
+    using All.Installation;
+
     class Program
     {
-        static readonly Installation.Installation installation = new Installation.Installation();
+        static readonly InstallerGate InstallerGate = new InstallerGate();
 
         static void Main(string[] args)
         {
-            installation.OnInstallationAndUpdate();
-
-            string command = string.Empty;
-            args.ToList().ForEach(arg => command += arg + " ");
-            command = command.ToLowerInvariant().Trim();
-
+            InstallerGate.OnInstallationAndUpdate();
+            var command = AsCommandLine(args);
             HandleOwnCommands(command);
+
             var baseDir = new DirectoryInfo(Environment.CurrentDirectory);
 
             var p = new Process();
@@ -53,7 +52,7 @@ namespace All
                 catch (Exception e)
                 {
                     countDirectoriesFail++;
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                 }
             }
 
@@ -66,13 +65,22 @@ namespace All
             Console.ForegroundColor = oldColor;
         }
 
+        private static string AsCommandLine(string[] args)
+        {
+            string command = string.Empty;
+            args.ToList().ForEach(arg => command += arg + " ");
+            command = command.ToLowerInvariant().Trim();
+
+            return command;
+        }
+
         private static void HandleOwnCommands(string command)
         {
             CommandLineOptions options = new CommandLineOptions();
 
             if (Regex.IsMatch(command, "^(-|--|/)(u$|update$)"))
             {
-                installation.Update();
+                InstallerGate.Update();
                 Environment.Exit(0);
             }
 

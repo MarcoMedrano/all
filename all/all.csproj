@@ -95,7 +95,7 @@
   <ItemGroup>
     <Compile Include="CommandLineOptions.cs" />
     <Compile Include="Installation\Actions.cs" />
-    <Compile Include="Installation\Installation.cs" />
+    <Compile Include="Installation\InstallerGate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
