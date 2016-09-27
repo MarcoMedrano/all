@@ -13,7 +13,7 @@
             CurrentDirectory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
         }
 
-        public static DirectoryInfo CurrentDirectory { get; private set; }
+        private static DirectoryInfo CurrentDirectory { get;  set; }
 
         internal void SetOsPath()
         {

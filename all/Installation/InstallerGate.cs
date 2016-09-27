@@ -1,7 +1,7 @@
-﻿using System;
-
+﻿
 namespace All.Installation
 {
+    using System;
     using Squirrel;
 
     class InstallerGate
